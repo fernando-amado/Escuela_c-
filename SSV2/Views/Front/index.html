@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/NavbarStyles.css">
+    <link rel="stylesheet" href="assets/styles/StyleIndex.css">
+    <title>Inicio App Colegio</title>
+</head>
+<body>
+     <img class="Icono hamburguesa" src="./assets/icons/menu.svg" alt="">
+    <nav class="nav-bar ver  ">
+        
+       
+    
+        <ul class="menu">
+           <a href="index.html"> <li> <img src="assets/icons/home 1.svg" alt="Icono Incio"> INICIO</li></a>
+            <hr>
+            <a href="views/reportes.html"><li> <img src="assets/icons/lista-de-verificacion 1.svg" alt="Icono Reportes"> REPORTES</li></a>
+            <a href="views/maestros.html"><li> <img src="assets/icons/aula 1.svg" alt="Icono Maestros"> DOCENTES</li></a>
+            <a href="views/materias.html"><li> <img src="assets/icons/libro 1.svg" alt="Icono Materias"> MATERIAS</li></a>
+            <a href="views/alumnos.html"><li> <img src="assets/icons/sombrero-de-graduacion 1.svg" alt="Icono Alumnos"> ALUMNOS</li></a>
+            <a href="views/notas.html"><li> <img src="assets/icons/los-grados 1.svg" alt="Icono Notas"> NOTAS</li></a>
+            <a  href="#"><li class="asignar"> <img  src="assets/icons/asignar.svg" alt="Icono Asignar"><br> ASIGNAR <ul class="submenu">
+                <li><a href="views/asignar_materia_profesor.html">Profesor</a></li>
+                <li><a href="views/asignar.html">Alumno</a></li>
+                </ul></li></a>
+            </ul>
+    </nav>
+    <section class="slideimg ver hidden "> 
+        <img src="assets/img/Colegio1.png" class="imgIndexSlide" alt="">
+        <img src="assets/icons/back.svg" alt="icon back" class="icons back" onclick="RetrocederDatos()">
+        <img src="assets/icons/next.svg" alt="icon next" class="icons next" onclick="AdelantarDatos()">
+           <div>
+                <button class="ContentButtons" onclick="SlideBotones(0)"></button>
+                <button class="ContentButtons" onclick="SlideBotones(1)"></button>
+                <button class="ContentButtons" onclick="SlideBotones(2)"></button>
+            </div>
+    </section>
+    <section class="RedesSociales ver hidden">
+        <div class="twitter ver hidden">
+            <img src="assets/icons/TWITTER.svg" alt="Icono twitter">
+            <h2>Puedes escribirnos a nuestro twitter: @ColegioGrande</h2>
+            <button>ESCRIBENOS</button>
+        </div>
+        <div class="facebook ver hidden"> 
+            <img src="assets/icons/FACEBOOK.svg" alt="Icono facebook">
+            <h2> Puedes escribirnos a nuestro facebook: ColegioGrande</h2>
+            <button>ESCRIBENOS</button>
+        </div>
+        <div class="gmail ver hidden">
+            <img src="assets/icons/GMAIL.svg" alt="Icono gmail">
+            <h2>Puedes escribirnos a nuestro correo: colegio@gmail.com</h2>
+            <button>ESCRIBENOS</button>
+        </div>
+
+    </section>
+    </main>
+    <script src="./assets/JavaScript/menu.js"></script>
+    <script src="assets/JavaScript/logicIndexImg.js"></script>
+</body>
+</html>
