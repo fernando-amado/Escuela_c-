@@ -33,12 +33,13 @@ body{
     width: 100%;
     border-spacing: 0px;
     background-color: #F2F2F2;
+    text-align: center;
 }
 .tablaAlumnos thead{
     color: #023859;
     text-align: center;
 }
-.tablaAlumnos thead th{
+.tablaAlumnos thead th,td{
     padding: 12px 20px;
     border-bottom: 1px solid #737373;
 }

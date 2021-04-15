@@ -13,7 +13,7 @@ using SSV2.Models;
 
 namespace SSV2.Controllers
 {
-    [EnableCors(origins: "http://myclient.azurewebsites.net", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TipoPersonasController : ApiController
     {
         private SSDBV2Container db = new SSDBV2Container();

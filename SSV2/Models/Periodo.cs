@@ -24,6 +24,6 @@ namespace SSV2.Models
         public string NombreP { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NotasMateria> NotasMateria { get; set; }
+        public  ICollection<NotasMateria> NotasMateria { get; set; }
     }
 }
