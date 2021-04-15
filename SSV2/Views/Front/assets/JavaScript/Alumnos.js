@@ -1,130 +1,169 @@
-var url = "https://localhost:44316/api/estudiantes";
-Get();
-function Get() {
-    fetch(url).then(res => res.json()).then(function (estudiantes) {
-        pintar(estudiantes);
-    })
+const tabla = document.querySelector(".tbody");
+const boton = document.getElementById("ButtonAdd");
+const btnGuardarMateria = document.getElementById("ButtonAddEditar");
+let documentoEditar = document.getElementById("documentoEditar");
+let nombreEditar = document.getElementById("nombreEditar");
+let apellidoEditar = document.getElementById("apellidoEditar");
+let tipoIdEditar = document.getElementById("tipoIdEditar");
+let estadoEditar = document.getElementById("estadoEditar");
+let inputNombre = document.getElementById("nombre").value;
+let inputApellido = document.getElementById("apellido").value;
+let inputTipo = parseInt(document.getElementById("tipoId").value);
+let inputDocumento = document.getElementById("documento").value;
+
+
+boton.addEventListener("click", () => {
+	inputNombre = document.getElementById("nombre").value;
+ 	inputApellido = document.getElementById("apellido").value;
+ 	inputTipo = parseInt(document.getElementById("tipoId").value);
+ 	inputDocumento = document.getElementById("documento").value;
+		Agregar(inputNombre,inputApellido,inputTipo,inputDocumento);
+});
+
+btnGuardarMateria.addEventListener("click", () => {
+	Editar(inputId.value, nombreEditar.value);
+});
+
+function listarAlumno() {
+	fetch("https://localhost:44351/api/Personas")
+		.then((response) => response.json())
+		.then((personas) =>
+			personas.forEach((persona) => {
+                if (persona.Tp_Id==1) {
+                    llenarTabla(persona);
+                }
+				
+			})
+		);
 }
 
-function pintar(estudiantes) {
-    document.querySelector(".tbody").innerHTML = "";
-    for (i = 0; i < estudiantes.length; i++) {
-        let tr = document.createElement("tr");
-        let tdButton = document.createElement("td");
-        let buttonEditar = document.createElement("button");
-        let buttonEliminar = document.createElement("button");
-        buttonEditar.innerHTML = "Editar";
-        buttonEliminar.innerHTML = "Eliminar";
-        buttonEditar.id = estudiantes[i].id;
-        buttonEditar.nombre = estudiantes[i].nombres;
-        buttonEditar.apellido = estudiantes[i].apellidos;
-        buttonEditar.documento =estudiantes[i].documento;
-        buttonEditar.tipoDocumento = estudiantes[i].tipoDocumento
-        buttonEliminar.addEventListener('click', Delete);
-        buttonEditar.addEventListener('click', function(mybutton){
-            OpenUpdate(mybutton.target.id,mybutton.target.nombre,mybutton.target.apellido,mybutton.target.documento,mybutton.target.tipoDocumento);
+
+function llenarTabla(p) {
+	let alumno = document.createElement("tr");
+	alumno.innerHTML += `<td> ${p.NDoc} </td>
+	 <td>  ${p.Nombres} </td>
+	<td>  ${p.Apellidos} </td>
+	<td>  ${p.TDoc_Id ==1? "CC":"TI" }  </td>
+	<td>  ${p.Activo ? "Activo" : "Inactivo"}  </td>`;
+	 alumno.innerHTML += `<td class="tdBoton ">
+	 <button class="buttonEditar far fa-edit"onclick="AbrirEditar
+	 (${p.Id},
+	 ${p.NDoc},
+	 '${p.Nombres}',
+	'${p.Apellidos}',
+	${p.TDoc_Id},
+	 ${p.Activo}
+	 )">Editar</button>
+	 <button class="fas fa-trash-alt buttonEliminar" onclick="Eliminar(${p.Id})">Eliminar</button></td>`;
+	 alumno.setAttribute("data-id", p.Id);
+	 tabla.appendChild(alumno);
+	 inputNombre.value = "";
+		}
+
+function Agregar(nombre,apellido,tdoc,ndoc,) {
+	fetch("https://localhost:44351/api/Personas", {
+		headers: {
+			"Accept": "application/json",
+			"Content-Type": "application/json"
+		},
+		method: "POST",
+		body: JSON.stringify({
+			Nombres: nombre,
+            Apellidos: apellido,
+            TDoc_Id: tdoc,
+            NDoc: ndoc,
+            Activo: true,
+            Tp_Id: 1
+		})
+	})
+		.then((response) => response.json())
+		.then((data) => {
+            llenarTabla(data)
+            alert("Se ha agregado exitosamente")
         });
-        let campos = `<td>${estudiantes[i].nombres}</td>
-                      <td>${estudiantes[i].apellidos}</td>
-                      <td>${estudiantes[i].documento}</td>
-                      <td>${estudiantes[i].tipoDocumento}</td>`
-        tr.innerHTML = campos;
-        buttonEditar.classList.add("buttonEditar");
-        buttonEliminar.classList.add("buttonEliminar");
-        tdButton.appendChild(buttonEditar);
-        tdButton.appendChild(buttonEliminar);
-        tr.setAttribute("data-id", estudiantes[i].id);
-        tr.appendChild(tdButton);
-        document.querySelector(".tbody").appendChild(tr);
-    }
 }
 
-function Post() {
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify({
-            nombres: document.getElementById("nombre").value,
-            apellidos: document.getElementById("apellido").value,
-            documento: document.getElementById("documento").value,
-            tipo_Documento: document.getElementById("tipoId").value,
-        }),
-        headers: {
-            'Accept': "application/json",
-            "content-Type": "application/json"
-        }
-    }).then(res => res.json()).then(data => {
-        alert("Transacción ejecutada con éxito", "Se ha agregado correctamente al estudiante", "success");
-                Get();
-                LimpiarTextBox();
-    }).catch(err =>
-       alert("error")
-    );
-}
+function AbrirEditar(id, nDoc, nombres, apellidos, tDoc, estado) {
+
+	OpenUpdate();
+	documentoEditar.value = nDoc;
+	nombreEditar.value = nombres;
+	apellidoEditar.value = apellidos;
+	tipoIdEditar.value = tDoc;
+	estadoEditar.value = estado;
+	btnGuardarMateria.addEventListener("click", () => {
+	  Editar(
+		id,
+		documentoEditar.value,
+		nombreEditar.value,
+		apellidoEditar.value,
+		tipoIdEditar.value,
+		estadoEditar.value
+	  );
+	});
+  
+  }
 
 
-function Update(e) {
-    console.log(typeof( e.srcElement.getAttribute("data-id")))
-    let documento = e.srcElement.getAttribute("data-id");
-    fetch(url, {
-        method: "PUT",
-        body: JSON.stringify({
-            id: documento,
-            nombres: document.getElementById("nombre").value,
-            apellidos: document.getElementById("apellido").value,
-            documento: document.getElementById("documento").value,
-            tipo_Documento: document.getElementById("tipoId").value
-        }),
-        headers: {
-            'Accept': "application/json",
-            "content-Type": "application/json"
-        }
-    }).then(function (personas) {
-        if (personas.ok) {
-            return personas.text();
-        } else {
-            alert("ERROR AL GENERAR LA SOLUCITUD")
-        }
-    }).then(function (personas) {
-        alert('Confirmación', 'Usuario Actualizado exitosamente!', function () { CloseUpdate() });
-        Get();
-    })
-}
-function Delete(e) {
-    let tr = e.srcElement.parentNode.parentNode;
-    let id = tr.getAttribute("data-id");
-    fetch(`${url}/${id}`, {
-        method: "DELETE",
-    }).then(res => res.json()).then(data => {
-        document.querySelector(".tbody").removeChild(tr);
-        console.log(data);
-        swal("Transacción ejecutada con éxito", `Se ha eliminado correctamente al estudiante ${data.nombres} identificado con ${data.tipoDocumento} ${data.documento}`, "success");
-    }).catch(err => swal({
-        title: "Error al ejecutar la transacción",
-        text: "Ha ocurrido un error en la transacción por favor comunicate con Sincosoft por medio de un help desk",
-        icon: "error",
-        button: "Ok!",
-    }));
+function Editar(id, nDoc, nombres, apellidos, tDoc, estado) {
+	console.log(id, nDoc, nombres, apellidos, tDoc, estado)
+	fetch("https://localhost:44351/api/Personas/" + id, {
+	  headers: {
+		Accept: "application/json",
+		"Content-Type": "application/json",
+	  },
+	  method: "PUT",
+	  body: JSON.stringify({
+		Id: id,
+		Nombres: nombres,
+		Apellidos: apellidos,
+		Tdoc_Id: parseInt(tDoc),
+		NDoc: nDoc,
+		Activo: estado == "1" ? true : false,
+		Tp_Id: 1,
+	  }),
+	})
+	  .then((p) => {
+		let tr = document.querySelector(`tr[data-id="${id}"]`);
+		tr.innerHTML = `<td> ${nDoc} </td>
+	  <td>  ${nombres} </td>
+	  <td>  ${apellidos} </td>
+	  <td>  ${tDoc} </td>
+	  <td>  ${estado ? "Activo" : "Inactivo"}  </td>`;
+		tr.innerHTML += `<td class="tdBoton ">
+	  <button class="buttonEditar far fa-edit"onclick="AbrirEditar
+	  (${id},
+	  ${nDoc},
+	  '${nombres}',
+		'${apellidos}',
+		${tDoc},
+	  ${estado}
+	  )">Editar</button>
+	  <button class="fas fa-trash-alt buttonEliminar" onclick="Eliminar(${id})">Eliminar</button></td>`;
+	  location.reload();  
+	})
+	  .catch((error) => {
+		console.error(error);
+	  });
+	CloseUpdate();
+  }
+
+function Eliminar(id) {
+	fetch("https://localhost:44351/api/Personas/" + id, {
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json"
+		},
+		method: "DELETE",
+		body: JSON.stringify({
+			Id: parseInt(id)
+		})
+	}).then(() => {
+		let tr = document.querySelector(`tr[data-id="${id}"]`);
+		tabla.removeChild(tr);
+		inputId.value = "";
+		inputNombre.value = "";
+	});
 }
 
-
-function OpenUpdate(id,nombre,apellido,documento,tipoDocumento) {
-
-    let modal = document.querySelector(".modalUpdate");
-    document.getElementById("nombreEditar").value = nombre;
-    document.getElementById("apellidoEditar").value = apellido;
-    document.getElementById("documentoEditar").value = documento;
-    document.getElementById("tipoIdEditar").value = tipoDocumento;
-    document.getElementById("ButtonAddEditar").setAttribute("data-id",id)
-    document.getElementById("ButtonAddEditar").addEventListener("click",Update);
-    modal.style.display = "block";
-}
-function CloseUpdate() {
-    let modal = document.querySelector(".modalUpdate");
-    modal.style.display = "none"
-}
-function LimpiarTextBox() {
-    document.getElementById("nombre").value = "";
-    document.getElementById("apellido").value = "";
-    document.getElementById("documento").value = "";
-    document.getElementById("tipoId").value = "";
-}
+listarAlumno();
