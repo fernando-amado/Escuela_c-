@@ -1,6 +1,6 @@
 
 function limpiarDatos() {
-	document.querySelector(".formulario").reset();
+	document.querySelector(".frmEditar").reset();
    
 }
 
