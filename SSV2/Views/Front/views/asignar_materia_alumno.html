@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/styles/NavbarStyles.css">
+    <link rel="stylesheet" href="../assets/styles/StyleForms.css">
+    <title>Asignar Alumno</title>
+</head>
+<body>
+    <nav class="nav-bar">
+        <ul class="menu">
+           <a href="../index.html"> <li> <img src="../assets/icons/home 1.svg" alt="Icono Incio"> INICIO</li></a>
+            <hr>
+            <a href="reportes.html"><li> <img src="../assets/icons/lista-de-verificacion 1.svg" alt="Icono Reportes"> REPORTES</li></a>
+            <a href="maestros.html"><li> <img src="../assets/icons/aula 1.svg" alt="Icono Maestros"> DOCENTES</li></a>
+            <a href="materias.html"><li> <img src="../assets/icons/libro 1.svg" alt="Icono Materias"> MATERIAS</li></a>
+            <a href="alumnos.html"><li> <img src="../assets/icons/sombrero-de-graduacion 1.svg" alt="Icono Alumnos"> ALUMNOS</li></a>
+            <a href="notas.html"><li> <img src="../assets/icons/los-grados 1.svg" alt="Icono Notas"> NOTAS</li></a>
+            <a href="#"><li> <img src="../assets/icons/asignar.svg" alt="Icono Asignar"> ASIGNAR
+            <ul class="submenu">
+            <li><a href="asignar_materia_profesor.html">Docente</a></li>
+            <li><a href="asignar.html">Alumno</a></li>
+            </ul></li></a>
+        </ul>
+    </nav>
+
+    <section class="seccionFormulario">
+        <h1 class="tituloForm">Asignar Materia a Alumno</h1>
+        <form class="frm">
+            <div class="contenedorInputs">
+                <label for="nombreAlumno">Nombre del Alumno: </label>
+                <select id="nombreAlumno">
+                    <option>Seleccione  alumno</option>
+                </select>
+                <label for="nombreMateria">Materia: </label>
+                <select id="nombreMateria">
+                    <option>Seleccione materia</option>
+                </select>
+                </div>
+            </div> 
+            <div class="buttons">
+                <input type="button" value="Asignar" id="ButtonAdd"> 
+            </div>
+        </form>
+        <hr>
+    </section>
+    
+    <section class="seccionTabla">
+        <div class="encabezadoTabla">
+            <h1 class="tituloTabla">Gestionar Asignación</h1> 
+            <div>
+                <input type="text" placeholder="Buscar por Materia" id="BuscarId">
+            </div>
+        </div>
+        <table class="tablaAlumnos"> 
+            <thead>
+                <tr>
+                <th>Nombre Del Alumno</th>
+                <th>Materia</th>
+                <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody class="tbody"> 
+
+            </tbody>
+        </table>
+    </section>
+    <div class="modalUpdate">
+        <div class="headerModal">
+            <h2>Editar Materia Docente</h2>
+            <input type="button" value="X" class="cerrar" id="ButtonCloseEditar" onclick="CloseUpdate()"> 
+        </div>
+            <form class="frmEditar formulario">
+                <div class="contenedorInputsEditar">
+                    <div>
+                        <input type="hidden" id="idMateriaDocente">
+                        <label for="DocenteEditar">Docente:</label>
+                        <select type="text" id="DocenteEditar">
+                    <option value="">Seleccione un Docente</option>
+                </select>
+                      
+                        <label for="MateriaEditar">Materia:</label>
+                         <select type="text" id="MateriaEditar">
+                    <option value="">Seleccione una Materia</option>
+                </select>
+                        <input type="hidden" value="null" id="EditarNota">
+                        </div>
+                </div> 
+                <div class="buttonsEditar">
+                    <input type="button" value="Guardar Cambios" class="guardarCambios"id="ButtonAddEditar" > 
+                </div>
+            </form>
+    </div>
+    <script src="../assets/JavaScript/modalMateria.js"></script>
+    <script src="../assets/JavaScript/AsignarMateriaAlumno.js"></script>
+</body>
+</html>
+ 

@@ -22,7 +22,7 @@
             <a href="#"><li> <img src="../assets/icons/asignar.svg" alt="Icono Asignar"> ASIGNAR
                 <ul class="submenu">
                 <li><a href="asignar_materia_profesor.html">Docente</a></li>
-                <li><a href="asignar.html">Alumno</a></li>
+                <li><a href="asignar_materia_alumno.html">Alumno</a></li>
                 </ul></li></a>
         </ul>
     </nav>
@@ -31,15 +31,17 @@
         <h1 class="tituloForm">Asignar Materia a Docente</h1>
         <form class="frm">
             <div class="contenedorInputs">
+                
                 <label for="nombreProfesor">Nombre del Docente: </label>
-                <select id="nombreProfesor">
-                    <option>Selecione...</option>
+                <select type="text" id="nombreProfesor">
+                    <option value="">Seleccione un Docente</option>
                 </select>
+                
                 <label for="nombreMateria">Materia: </label>
-                <select id="nombreMateria">
-                    <option>Selecione...</option>
+                <select type="text" id="nombreMateria">
+                    <option value="">Seleccione una Materia</option>
                 </select>
-                </div>
+                <input type="hidden" value="null" id="notaNull">
             </div> 
             <div class="buttons">
                 <input type="button" value="Asignar" id="ButtonAdd"> 
@@ -60,7 +62,6 @@
                 <tr>
                 <th>Nombre Del Docente</th>
                 <th>Materia</th>
-                <th>Nombre Del Alumno</th>
                 <th>Acción</th>
                 </tr>
             </thead>
@@ -69,7 +70,37 @@
             </tbody>
         </table>
     </section>
-    <script src="../assets/JavaScript/"></script>
+
+    <div class="modalUpdate">
+        <div class="headerModal">
+            <h2>Editar Materia Docente</h2>
+            <input type="button" value="X" class="cerrar" id="ButtonCloseEditar" onclick="CloseUpdate()"> 
+        </div>
+            <form class="frmEditar formulario">
+                <div class="contenedorInputsEditar">
+                    <div>
+                        <input type="hidden" id="idMateriaDocente">
+                        <label for="DocenteEditar">Docente:</label>
+                        <select type="text" id="DocenteEditar">
+                    <option value="">Seleccione un Docente</option>
+                </select>
+                      
+                        <label for="MateriaEditar">Materia:</label>
+                         <select type="text" id="MateriaEditar">
+                    <option value="">Seleccione una Materia</option>
+                </select>
+                        <input type="hidden" value="null" id="EditarNota">
+                        </div>
+                </div> 
+                <div class="buttonsEditar">
+                    <input type="button" value="Guardar Cambios" class="guardarCambios"id="ButtonAddEditar" > 
+                </div>
+            </form>
+    </div>
+
+    <script src="../assets/JavaScript/modalMateria.js"></script>
+   
+    <script src="../assets/JavaScript/AsignarMateriaProfesor.js"></script>
 </body>
 </html>
  
