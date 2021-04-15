@@ -23,9 +23,12 @@ namespace SSV2.Models
         public int Id { get; set; }
         public double Notas { get; set; }
         public int Periodo_Id { get; set; }
+
+        public int Materia_id { get; set; }
+        public int Estudiante_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonaMateria> PersonaMateria { get; set; }
-        public virtual Periodo Periodoes { get; set; }
+        public  ICollection<PersonaMateria> PersonaMateria { get; set; }
+        public  Periodo Periodoes { get; set; }
     }
 }
