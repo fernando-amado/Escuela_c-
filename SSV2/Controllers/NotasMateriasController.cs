@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,7 +14,7 @@ using SSV2.Models;
 
 namespace SSV2.Controllers
 {
-    [EnableCors(origins: "http://myclient.azurewebsites.net", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class NotasMateriasController : ApiController
     {
         private SSDBV2Container db = new SSDBV2Container();
@@ -81,6 +82,13 @@ namespace SSV2.Controllers
                 return BadRequest(ModelState);
             }
 
+            db.Database.ExecuteSqlCommand(
+        "EXEC sp_insertarnota @nota , @id_periodo,@id_materia,@id_estudiante",
+        new SqlParameter("@nota", notasMateria.Notas),
+        new SqlParameter("@id_periodo", notasMateria.Periodo_Id),
+        new SqlParameter("@id_materia", notasMateria.Materia_id),
+        new SqlParameter("@id_estudiante", notasMateria.Estudiante_id));
+
             db.NotasMaterias.Add(notasMateria);
             db.SaveChanges();
 
@@ -89,15 +97,20 @@ namespace SSV2.Controllers
 
         // DELETE: api/NotasMaterias/5
         [ResponseType(typeof(NotasMateria))]
-        public IHttpActionResult DeleteNotasMateria(int id)
+        public IHttpActionResult DeleteNotasMateria(int id, NotasMateria notasMateria)
         {
-            NotasMateria notasMateria = db.NotasMaterias.Find(id);
             if (notasMateria == null)
             {
                 return NotFound();
             }
 
-            db.NotasMaterias.Remove(notasMateria);
+            db.Database.ExecuteSqlCommand(
+              "EXEC sp_eliminarnota @id_materia,@id_persona,@id_nota1,@id_nota2",
+              new SqlParameter("@id_materia", notasMateria.Materia_id),
+              new SqlParameter("@id_persona", notasMateria.Estudiante_id),
+              new SqlParameter("@id_nota1", id),
+              new SqlParameter("@id_nota2", notasMateria.Notas));
+
             db.SaveChanges();
 
             return Ok(notasMateria);

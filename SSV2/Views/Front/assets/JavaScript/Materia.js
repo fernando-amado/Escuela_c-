@@ -47,7 +47,7 @@ function Agregar(m) {
 		body: JSON.stringify({
 			Nombre: m
 		})
-	})
+	},)
 		.then((response) => response.json())
 		.then((data) => llenarTabla(data));
 }
