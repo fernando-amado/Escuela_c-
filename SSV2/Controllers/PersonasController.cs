@@ -68,13 +68,35 @@ namespace SSV2.Controllers
         [ResponseType(typeof(Persona))]
         public IHttpActionResult GetPersona(int id)
         {
-            Persona persona = db.Personas.Find(id);
-            if (persona == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(persona);
+            var lst = (
+                     from per in db.Personas
+                     join td in db.TDocs on per.TDoc_Id equals td.Id
+                     join tp in db.TipoPersonas on per.Tp_Id equals tp.Id
+                     join pm in db.PersonaMaterias on per.Id equals pm.Persona_Id
+                     join m in db.Materias on pm.Materia_Id equals m.Id
+                     where per.Id == id
+                     select new
+                     {
+                         Id = per.Id,
+                         Nombre = per.Nombres,
+                         Apellidos = per.Apellidos,
+                         Tipodedocumento = td.Tipo,
+                         NumeroDocumento = per.NDoc,
+                         Tipodepersona = tp.Rol,
+                         Activo = per.Activo,
+                         Notas = (from notmat in db.NotasMaterias
+                                  join permat in db.PersonaMaterias on notmat.Id equals permat.Notas_Materias_Id
+                                  join period in db.Periodoes on notmat.Periodo_Id equals period.Id
+                                  where permat.Persona_Id == per.Id && permat.Materia_Id == m.Id
+                                  select new { Notas = notmat.Notas, NombreP = period.NombreP, Idnota = notmat.Id }),
+                         Materia = m.Nombre,
+                         Materia_id = m.Id,
+                         Profesor = (from pro in db.Personas
+                                     join perma in db.PersonaMaterias on pro.Id equals perma.Persona_Id
+                                     where pro.Tp_Id == 2 && perma.Materia_Id == m.Id
+                                     select new { pro.Nombres })
+                     });
+            return Ok(lst);
         }
 
         // PUT: api/Personas/5

@@ -27,65 +27,48 @@ function listarSelectAlumno(url, input) {
 			})
 		);
 }
-function llenarSelect(datos, input) {
-	input.innerHTML += `<option value="${datos.Id}">${datos.Nombre}</option>`;
-}
-function llenarSelectAlumno(datos, input) {
-	if (datos.Tp_Id == 1) {
-		input.innerHTML += `<option value="${datos.Id}">${datos.Nombres}</option>`;
-	}
-}
+
 btnagregar.addEventListener("click" , ()=>{
     Agregar(selectestudiante.value,selectmateria.value,selectPeriodo.value,inputnota.value)
 })
 
-async function consultar() {
+async function listarNotas() {
 	await fetch("https://localhost:44351/api/Personas/ConsultarMultitabla")
-		.then((response) => response.json())
-		.then((materias) => {
-			llenarTabla(materias);
+		.then((data) => data.json())
+		.then((notas) => {
+			llenarTabla(notas);
+            console.log('recibido')
 		})
 		.catch((error) => error);
 }
-
-function llenarTabla(materias) {
-	html = " ";
-	materias.forEach((materia) => {
-		if (materia.TipoPersona == 1) {
-			html += `<tr id="tr" data-id="${materia.IdDocente}">
-          <td>${materia.NombrePersona}  ${materia.ApellidoPersona}</td>
-          <td>${materia.Materia}</td>
-          <td class="tdBoton "><button class="buttonEditar far fa-edit"onclick="AbrirEditar('${materia.IdDocente}','${materia.IdPersona}', '${materia.IdMateria}')">Editar</button>
-    	  <button class=" fas fa-trash-alt buttonEliminar" onclick="Eliminar(${materia.IdDocente})">Eliminar</button></td>
-          </tr>`;
-			tabla.innerHTML = html;
-		}
-	});
+listarNotas();
+function llenarSelect(datos,input){
+   
+input.innerHTML += `<option value="${datos.Id}">${datos.Nombre}</option>`;
+    
 }
-function listarNotas(){
-    fetch("https://localhost:44351/api/Personas/ConsultarMultitabla")
-			.then((data) => data.json())
-			.then((notas) =>
-				notas.forEach((nota) => {
-					llenarTabla(nota)
-				})
-			);
+function llenarSelectAlumno(datos, input) {
+     if (datos.Tp_Id==1){
+	input.innerHTML += `<option value="${datos.Id}">${datos.Nombres}</option>`;
+     }
 }
 
-
-
-function llenarTabla(n) {
-	let trNotas = document.createElement("tr");
-
-	trNotas.innerHTML += `<td>${n.Nombre} ${n.Apellidos} </td>
-    <td>${n.Materia}</td>
-    <td>${(n.Notas[0]==null||n.Notas==undefined)?"Aún no tiene nota asignada":n.Notas[0].Notas}</td>
-    <td>${(n.Notas[1]==null||n.Notas[1]==undefined)?"Aún no tiene nota asignada":n.Notas[1].Notas}</td>`;
-	trNotas.setAttribute("data-id", n.Id);
-	trNotas.innerHTML += `<td class="tdBoton "><button class="buttonEditar far fa-edit"
+function llenarTabla(notas) {
+    html = " ";
+		notas.forEach((n) => {
+			
+				html += `<tr id="tr" data-id="${n.Id}">
+          <td>${n.Nombre}  ${n.Apellidos}</td>
+          <td>${n.Materia}</td>
+           <td>${(n.Notas[0]==null||n.Notas==undefined)?"Aún no tiene nota asignada":n.Notas[0].Notas}</td>
+            <td>${(n.Notas[1]==null||n.Notas[1]==undefined)?"Aún no tiene nota asignada":n.Notas[1].Notas}</td>
+          <td class="tdBoton "><button class="buttonEditar far fa-edit"
     onclick="AbrirEditar(${n.Notas[0].Idnota},${(n.Notas[1]==null||n.Notas[1]==undefined)?0:n.Notas[1].Idnota},'${n.Nombre}','${n.Notas[0].Notas}','${(n.Notas[1]==null||n.Notas[1]==undefined)?"Aún no tiene nota asignada":n.Notas[1].Notas}','${n.Materia}')">Editar</button>
-    <button class=" fas fa-trash-alt buttonEliminar" onclick="Eliminar(${n.Id},${n.Materia_id},${n.Notas[0].Idnota},${(n.Notas[1]==null||n.Notas[1]==undefined)?0:n.Notas[1].Idnota})">Eliminar</button></td>`;
-	tabla.appendChild(trNotas);
+    <button class=" fas fa-trash-alt buttonEliminar" onclick="Eliminar(${n.Id},${n.Materia_id},${n.Notas[0].Idnota},${(n.Notas[1]==null||n.Notas[1]==undefined)?0:n.Notas[1].Idnota})">Eliminar</button></td>
+          </tr>`;
+				tabla.innerHTML = html;
+			
+		});
 }
 
 function Agregar(nombre,materia,periodo,nota){
@@ -101,7 +84,7 @@ function Agregar(nombre,materia,periodo,nota){
             Materia_id:materia,
             Estudiante_id:nombre
         })
-    }).then((response) => response.json()).then(listarNotas)
+    }).then((response) => response.json()).then(listarNotas,limpiarDatos())
 }
 
 function AbrirEditar(idnota1,idnota2,nombre,nota1,nota2,materia){
