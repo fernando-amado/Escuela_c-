@@ -23,15 +23,15 @@ boton.addEventListener("click", () => {
 });
 
 function listarProfesor() {
-  fetch("https://localhost:44351/api/Personas")
-    .then((response) => response.json())
-    .then((personas) =>
-      personas.forEach((person) => {
-        if (person.Tp_Id == 2) {
-          llenarTablaProfesor(person);
-        }
-      })
-    );
+  fetch("https://localhost:44351/api/Personas/ConsultarTodo")
+		.then((response) => response.json())
+		.then((personas) =>
+			personas.forEach((person) => {
+				if (person.Tp_Id == 2) {
+					llenarTablaProfesor(person);
+				}
+			})
+		);
 }
 
 function llenarTablaProfesor(p) {

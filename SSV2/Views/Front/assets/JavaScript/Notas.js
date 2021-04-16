@@ -18,26 +18,61 @@ function listarSelect(url,input){
         llenarSelect(nota,input)
     }))
 }
-
+function listarSelectAlumno(url, input) {
+	fetch(url)
+		.then((data) => data.json())
+		.then((notas) =>
+			notas.forEach((nota) => {
+				llenarSelectAlumno(nota,input)
+			})
+		);
+}
+function llenarSelect(datos, input) {
+	input.innerHTML += `<option value="${datos.Id}">${datos.Nombre}</option>`;
+}
+function llenarSelectAlumno(datos, input) {
+	if (datos.Tp_Id == 1) {
+		input.innerHTML += `<option value="${datos.Id}">${datos.Nombres}</option>`;
+	}
+}
 btnagregar.addEventListener("click" , ()=>{
     Agregar(selectestudiante.value,selectmateria.value,selectPeriodo.value,inputnota.value)
 })
 
-function listarNotas(){
-    fetch("https://localhost:44351/api/Personas")
-    .then((data)=>data.json())
-    .then((notas)=>notas.forEach(nota=>{
-        if (idnotas.includes(nota.Notas[0]==undefined)||!idnotas.includes(nota.Notas[0].Idnota)) {
-            idnotas.push(nota.Notas[0].Idnota)
-            llenarTabla(nota)
-        }
-        
-    }))
+async function consultar() {
+	await fetch("https://localhost:44351/api/Personas/ConsultarMultitabla")
+		.then((response) => response.json())
+		.then((materias) => {
+			llenarTabla(materias);
+		})
+		.catch((error) => error);
 }
 
-function llenarSelect(datos,input){
-    input.innerHTML+=`<option value="${datos.Id}">${datos.Nombre}</option>`
+function llenarTabla(materias) {
+	html = " ";
+	materias.forEach((materia) => {
+		if (materia.TipoPersona == 1) {
+			html += `<tr id="tr" data-id="${materia.IdDocente}">
+          <td>${materia.NombrePersona}  ${materia.ApellidoPersona}</td>
+          <td>${materia.Materia}</td>
+          <td class="tdBoton "><button class="buttonEditar far fa-edit"onclick="AbrirEditar('${materia.IdDocente}','${materia.IdPersona}', '${materia.IdMateria}')">Editar</button>
+    	  <button class=" fas fa-trash-alt buttonEliminar" onclick="Eliminar(${materia.IdDocente})">Eliminar</button></td>
+          </tr>`;
+			tabla.innerHTML = html;
+		}
+	});
 }
+function listarNotas(){
+    fetch("https://localhost:44351/api/Personas/ConsultarMultitabla")
+			.then((data) => data.json())
+			.then((notas) =>
+				notas.forEach((nota) => {
+					llenarTabla(nota)
+				})
+			);
+}
+
+
 
 function llenarTabla(n) {
 	let trNotas = document.createElement("tr");
@@ -124,35 +159,8 @@ btnEditar.addEventListener("click",()=>{
 })
 
 
-
-
-
-
-
-
-function limpiarDatos() {
-	document.querySelector(".formulario").reset();
-   
-}
-
-function OpenUpdate() {
-	let modal = document.querySelector(".modalUpdate");
-
-	modal.style.display = "block";
-}
-
-function CloseUpdate() {
-	let modal = document.querySelector(".modalUpdate");
-	modal.style.display = "none";
-}
-
-
-
-
-
-
 listarNotas()
-listarSelect("https://localhost:44351/api/Personas",selectestudiante)
+listarSelectAlumno("https://localhost:44351/api/Personas/ConsultarTodo", selectestudiante);
 listarSelect("https://localhost:44351/api/Materias",selectmateria)
 listarSelect("https://localhost:44351/api/Periodoes",selectPeriodo)
 listarSelect("https://localhost:44351/api/Periodoes", periodoeditar)
