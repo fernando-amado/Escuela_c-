@@ -90,8 +90,8 @@ function Agregar(nombre,materia,periodo,nota){
             Estudiante_id:nombre
         })
     }).then((response) => response.json()).then()
-    listarNotas();
-    location.reload()
+
+ setInterval("actualizar()", 30);
     selectestudiante.value="";
     selectmateria.value="";
     selectPeriodo.value="";
@@ -116,24 +116,32 @@ function AbrirEditar(idnota1,idnota2,nombre,nota1,nota2,materia){
 })
     
 }
-
+function actualizar() {
+	location.reload(true);
+}
 function Editar(id,periodo,nota){
-    fetch("https://localhost:44351/api/NotasMaterias/"+id,{
-        headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json"
-		},
-        method:"PUT",
-        body:JSON.stringify({
-            Id: parseInt(id),
-            Notas:nota,
-            Periodo_id:parseInt (periodo),
-        })
-    }).then((response) => response).then(listarNotas(), CloseUpdate())
+    fetch("https://localhost:44351/api/NotasMaterias/" + id, {
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json"
+			},
+			method: "PUT",
+			body: JSON.stringify({
+				Id: parseInt(id),
+				Notas: nota,
+				Periodo_id: parseInt(periodo)
+			})
+		}).then((data) => {
+			listarNotas(data);
+		}),
+			setInterval("actualizar()", 30);
+			CloseUpdate();
+	
     selectestudiante.value = "";
 		selectmateria.value = "";
 		selectPeriodo.value = "";
 		inputnota.value = "";
+        
 }
 
 function Eliminar(idpersona,idmateria,idnota1,idnota2){
@@ -155,21 +163,12 @@ function Eliminar(idpersona,idmateria,idnota1,idnota2){
 }
 
 btnEditar.addEventListener("click",()=>{
-    // if(document.getElementById("idnota").value==0){
-    //     console.log("mipana usted va  a insertar")
-    //     Agregar(
-	// 				nombreEditar.value,
-	// 				materiaEditar.value,
-	// 				periodoeditar.value,
-	// 				EditarNota.value
-	// 			);
-    // }else{
     Editar(
         document.getElementById("idnota").value,
         periodoeditar.value,
         document.getElementById("EditarNota").value
     );
-
+    
     }
     )
 
