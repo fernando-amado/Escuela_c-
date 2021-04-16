@@ -43,7 +43,7 @@ function seleccionarMateria(select) {
 		);
 }
 function seleccionarDocente(select) {
-	fetch("https://localhost:44351/api/Personas")
+	fetch("https://localhost:44351/api/Personas/ConsultarTodo")
 		.then((response) => response.json())
 		.then((personas) =>
 			personas.forEach((persona) => {

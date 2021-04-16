@@ -89,7 +89,7 @@ namespace SSV2.Controllers
            new SqlParameter("@id_materia", notasMateria.Materia_id),
            new SqlParameter("@id_estudiante", notasMateria.Estudiante_id));
 
-            db.NotasMaterias.Add(notasMateria);
+            
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = notasMateria.Id }, notasMateria);
