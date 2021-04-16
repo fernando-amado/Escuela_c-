@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,11 +8,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/styles/NavbarStyles.css">
     <link rel="stylesheet" href="../assets/styles/StyleForms.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="../assets/main.css">
+
+
+    <!--datables CSS básico-->
+    <link rel="stylesheet" type="text/css" href="../assets/datatables/datatables.min.css" />
+    <!--datables estilo bootstrap 4 CSS-->
+    <link rel="stylesheet" type="text/css"
+        href="../assets/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
     <title>Maestros</title>
 </head>
 
 <body>
-   <img class="Icono hamburguesa" src="../assets/icons/menu.svg" alt="">
+    <img class="Icono hamburguesa" src="../assets/icons/menu.svg" alt="">
     <nav class="nav-bar ver  ">
         <ul class="menu">
             <a href="../index.html">
@@ -33,43 +45,50 @@
             <a href="notas.html">
                 <li> <img src="../assets/icons/los-grados 1.svg" alt="Icono Notas"> NOTAS</li>
             </a>
-            <a href="#"><li> <img src="../assets/icons/asignar.svg" alt="Icono Asignar"> <br> ASIGNAR 
-                <ul class="submenu">
-                <li><a href="asignar_materia_profesor.html">Docente</a></li>
-                <li><a href="asignar.html">Alumno</a></li>
-                </ul></li></a>
+            <a href="#">
+                <li> <img src="../assets/icons/asignar.svg" alt="Icono Asignar"> <br> ASIGNAR
+                    <ul class="submenu">
+                        <li><a href="asignar_materia_profesor.html">Docente</a></li>
+                        <li><a href="asignar.html">Alumno</a></li>
+                    </ul>
+                </li>
+            </a>
         </ul>
     </nav>
 
     <section class="seccionFormulario ver hidden">
-        <h1 class="tituloForm hidden">Agregar Maestros</h1>
-        <form class="frm">
-            <div class="contenedorInputs">
-                <div >
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" placeholder="Escribe el Nombre">
+        <div class="card mb-3">
+            <h1 class="tituloForm hidden">Agregar Maestros</h1>
+            <form class="frm">
+
+                <div class="contenedorInputs">
+                    <div>
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" placeholder="Escribe el Nombre">
+                    </div>
+                    <div>
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" id="apellido" placeholder="Escribe el Apellido">
+                    </div>
+
+                    <div>
+                        <label for="documento">Documento:</label>
+                        <input type="number" id="documento" placeholder="Escribe la identificacion">
+                    </div>
+                    <div>
+                        <label for="tipoId">Tipo Documento:</label>
+                        <select id="tipoId">
+                            <option>Selecione...</option>
+                            <option value="1">CC</option>
+                            <option value="2">TI</option>
+                        </select>
+                    </div>
                 </div>
-                <div >
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" placeholder="Escribe el Apellido">
+                <div class="buttons">
+                    <input type="button" value="Agregar" id="ButtonAdd">
+
                 </div>
-                
-                <div>
-                    <label for="documento">Documento:</label>
-                    <input type="number" id="documento" placeholder="Escribe la identificacion">
-                </div>
-                <div>
-                    <label for="tipoId">Tipo Documento:</label>
-                    <select id="tipoId">
-                        <option>Selecione...</option>
-                        <option value="1">CC</option>
-                        <option value="2">TI</option>
-                    </select>
-                </div>
-            </div>
-            <div class="buttons">
-                <input type="button" value="Agregar" id="ButtonAdd">
-            </div>
+        </div>
         </form>
         <hr>
     </section>
@@ -77,66 +96,86 @@
     <section class="seccionTabla ver hidden">
         <div class="encabezadoTabla">
             <h1 class="tituloTabla">Gestionar Docentes</h1>
-            <div>
-                <input type="text" placeholder="Buscar por Documento" id="BuscarId">
+
+
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Identificación</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Tipo documento</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody">
+                            <tr>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <table class="tablaAlumnos">
-            <thead>
-                <tr>
-                    <th>Identificación</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Tipo documento</th>
-                    <th>Estado</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody class="tbody">
-                <tr>
-
-                </tr>
-            </tbody>
-        </table>
     </section>
+
+
     <div class="modalUpdate">
         <div class="headerModal">
             <h2>Editar Docente</h2>
-            <input type="button" value="X" class="cerrar" id="ButtonCloseEditar" onclick="CloseUpdate()"> 
+            <input type="button" value="X" class="cerrar" id="ButtonCloseEditar" onclick="CloseUpdate()">
         </div>
-            <form class="frmEditar">
-                <div class="contenedorInputsEditar">
-                    <div>
-                        <input type="hidden" >
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" id="nombreEditar" placeholder="Escribe el Nombre">
-                        <label for="apellido">Apellido:</label>
-                        <input type="text"id="apellidoEditar" placeholder="Escribe el Apellido">
-                        <label for="estado">Estado Actual:</label>
-                        <select id="estadoEditar">
-                            <option value="1">Activo</option>
-                            <option value="2">Inactivo</option>
-                        </select>
-                    </div>
-                    <div>
-
-                        <label for="documento">Documento:</label>
-                        <input type="number" id="documentoEditar"  placeholder="Escribe la identificacion">
-                        <label for="tipoId">Tipo Documento:</label>
-                        <select id="tipoIdEditar">
-                            <option>Selecione...</option>
-                            <option value="1">CC</option>
-                            <option value="2">TI</option>
-                        </select>
-                    </div>
-                </div> 
-                <div class="buttonsEditar">
-                    <input type="button" value="Guardar Cambios" class="guardarCambios"id="ButtonAddEditar"> 
+        <form class="frmEditar">
+            <div class="contenedorInputsEditar">
+                <div>
+                    <input type="hidden">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombreEditar" placeholder="Escribe el Nombre">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellidoEditar" placeholder="Escribe el Apellido">
+                    <label for="estado">Estado Actual:</label>
+                    <select id="estadoEditar">
+                        <option value="1">Activo</option>
+                        <option value="2">Inactivo</option>
+                    </select>
                 </div>
-            </form>
+                <div>
+
+                    <label for="documento">Documento:</label>
+                    <input type="number" id="documentoEditar" placeholder="Escribe la identificacion">
+                    <label for="tipoId">Tipo Documento:</label>
+                    <select id="tipoIdEditar">
+                        <option>Selecione...</option>
+                        <option value="1">CC</option>
+                        <option value="2">TI</option>
+                    </select>
+                </div>
+            </div>
+            <div class="buttonsEditar">
+                <input type="button" value="Guardar Cambios" class="guardarCambios" id="ButtonAddEditar">
+            </div>
+        </form>
     </div>
     <script src="../assets/JavaScript/menu.js"></script>
     <script src="../assets/JavaScript/Maestros.js"></script>
     <script src="../assets/JavaScript/modalMateria.js"></script>
+
+    <!-- jQuery, Popper.js, Bootstrap JS -->
+    <script src="../assets/jquery/jquery-3.3.1.min.js"></script>
+    <script src="../assets/popper/popper.min.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- datatables JS -->
+    <script type="../assets/text/javascript" src="datatables/datatables.min.js"></script>
+
+    <script type="../assets/text/javascript" src="main.js"></script>
+
+
 </body>
+
 </html>
