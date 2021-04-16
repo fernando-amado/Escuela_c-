@@ -124,24 +124,28 @@
             <h2>Editar Nota</h2>
             <input type="button" value="X" class="cerrar" id="ButtonCloseEditar" onclick="CloseUpdate()">
         </div>
-        <form class="frmEditar">
-            <div class="contenedorInputsEditar">
-                <div>
-                    <input type="hidden" id="idnota">
-                    <label for="nombre">Nombre Del Alumno:</label>
-                    <input type="text" id="nombreUpdate" readonly>
-
-                    <label for="materia">Materia:</label>
-                    <input type="text" id="estadoEditar" readonly>
-                </div>
-                <div>
-
-                    <label for="periodo">Periodo:</label>
-                    <select id="seleccionPeriodo">
-                        <option>Selecione...</option>
-                    </select>
-                    <label for="nota">Nota:</label>
-                    <input type="number" id="EditarNota" placeholder="Digite la nota">
+            <form class="frmEditar">
+                <div class="contenedorInputsEditar">
+                    <div>
+                        <input type="hidden" id="idnota">
+                        <label for="nombre">Nombre Del Alumno:</label>
+                        <input type="text" id="nombreEditar" readonly>
+                        
+                        <label for="materia">Materia:</label>
+                        <input type="text" id="materiaEditar" readonly>
+                    </div>
+                    <div>
+                        
+                        <label for="periodo">Periodo:</label>
+                        <select id="seleccionPeriodo">
+                            <option>Selecione...</option>
+                        </select>
+                        <label for="nota">Nota:</label>
+                        <input type="number" id="EditarNota"  placeholder="Digite la nota">
+                    </div>
+                </div> 
+                <div class="buttonsEditar">
+                    <input type="button" value="Guardar Cambios" class="guardarCambios"id="ButtonEditar"> 
                 </div>
             </div>
             <div class="buttonsEditar">
