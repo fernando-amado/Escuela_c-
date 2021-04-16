@@ -4,7 +4,7 @@ const tabla = document.querySelector(".tbody");
 
 
 function listarAlumno() {
-	fetch("https://localhost:44351/api/Personas")
+	fetch("https://localhost:44351/api/Personas/ConsultarTodo")
 		.then((response) => response.json())
 		.then((personas) =>
 			personas.forEach((persona) => {
