@@ -1,7 +1,7 @@
 const tabla = document.querySelector(".tbody");
 
 const boton = document.getElementById("ButtonAdd");
-const inputNombre = document.getElementById("nombre_materia");
+const inputNombre = document.getElementById("nombre");
 const inputId = document.getElementById("idMateria");
 const nombreEditar = document.getElementById("nombreEditar");
 const btnGuardarMateria = document.getElementById("ButtonAddEditar");
