@@ -52,7 +52,6 @@ namespace SSV2.Controllers
                 });
             return lst;
         }
-
         // GET: api/Personas/5
         [ResponseType(typeof(Persona))]
         public IHttpActionResult GetPersona(int id)

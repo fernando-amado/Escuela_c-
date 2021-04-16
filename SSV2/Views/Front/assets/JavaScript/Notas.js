@@ -27,7 +27,7 @@ function listarNotas(){
     fetch("https://localhost:44351/api/Personas")
     .then((data)=>data.json())
     .then((notas)=>notas.forEach(nota=>{
-        if (!idnotas.includes(nota.Notas[0].Idnota)) {
+        if (idnotas.includes(nota.Notas[0]==undefined)||!idnotas.includes(nota.Notas[0].Idnota)) {
             idnotas.push(nota.Notas[0].Idnota)
             llenarTabla(nota)
         }
@@ -44,8 +44,8 @@ function llenarTabla(n) {
 
 	trNotas.innerHTML += `<td>${n.Nombre} ${n.Apellidos} </td>
     <td>${n.Materia}</td>
-    <td>${n.Notas[0].Notas}</td>
-    <td>${(n.Notas[1]==null||n.Notas[1]==undefined)?"Aún no tiene nota signada":n.Notas[1].Notas}</td>`;
+    <td>${(n.Notas[0]==null||n.Notas==undefined)?"Aún no tiene nota asignada":n.Notas[0].Notas}</td>
+    <td>${(n.Notas[1]==null||n.Notas[1]==undefined)?"Aún no tiene nota asignada":n.Notas[1].Notas}</td>`;
 	trNotas.setAttribute("data-id", n.Id);
 	trNotas.innerHTML += `<td class="tdBoton "><button class="buttonEditar far fa-edit"
     onclick="AbrirEditar(${n.Notas[0].Idnota},${(n.Notas[1]==null||n.Notas[1]==undefined)?0:n.Notas[1].Idnota},'${n.Nombre}','${n.Notas[0].Notas}','${(n.Notas[1]==null||n.Notas[1]==undefined)?"Aún no tiene nota asignada":n.Notas[1].Notas}','${n.Materia}')">Editar</button>

@@ -1,4 +1,4 @@
-var url = "https://localhost:44316/api/estudiantes";
+var url = "https://localhost:44351//api/Personas";
 Get();
 function Get() {
     fetch(url).then(res => res.json()).then(function (estudiantes) {
