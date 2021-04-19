@@ -7,24 +7,19 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using SSV2.Models;
 
 namespace SSV2.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PeriodoesController : ApiController
     {
         private SSDBV2Container db = new SSDBV2Container();
 
         // GET: api/Periodoes
-        public IQueryable GetPeriodoes()
+        public IQueryable<Periodo> GetPeriodoes()
         {
-            var list = (from peri in db.Periodoes
-                        select new { Id=peri.Id ,
-                        Nombre=peri.NombreP});
-            return list;
+            return db.Periodoes;
         }
 
         // GET: api/Periodoes/5

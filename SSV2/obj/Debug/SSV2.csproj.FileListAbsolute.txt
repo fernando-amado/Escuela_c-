@@ -450,6 +450,5 @@ C:\Users\luis.amado\Desktop\Escuela_c-\SSV2\bin\System.Web.WebPages.Deployment.x
 C:\Users\luis.amado\Desktop\Escuela_c-\SSV2\bin\System.Web.WebPages.Razor.xml
 C:\Users\luis.amado\Desktop\Escuela_c-\SSV2\bin\Antlr3.Runtime.pdb
 C:\Users\luis.amado\Desktop\Escuela_c-\SSV2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\luis.amado\Desktop\Escuela_c-\SSV2\obj\Debug\SSV2.csprojResolveAssemblyReference.cache
 C:\Users\luis.amado\Desktop\Escuela_c-\SSV2\obj\Debug\SSV2.dll
 C:\Users\luis.amado\Desktop\Escuela_c-\SSV2\obj\Debug\SSV2.pdb
