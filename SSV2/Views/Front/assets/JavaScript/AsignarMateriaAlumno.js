@@ -26,7 +26,7 @@ function llenarTabla(materias) {
           <td>${materia.NombrePersona}  ${materia.ApellidoPersona}</td>
           <td>${materia.Materia}</td>
           <td class="tdBoton "><button class="buttonEditar far fa-edit"onclick="AbrirEditar('${materia.IdDocente}','${materia.IdPersona}', '${materia.IdMateria}')">Editar</button>
-    	  <button class=" fas fa-trash-alt buttonEliminar" onclick="Eliminar(${materia.IdDocente})">Eliminar</button></td>
+    	  <button class=" fas fa-trash-alt buttonEliminar" onclick="ConfirmarEliminar(${materia.IdDocente})">Eliminar</button></td>
           </tr>`;
 			tabla.innerHTML = html;
 		}
@@ -76,7 +76,9 @@ function Agregar(Alumno, Materia) {
 		})
 	})
 		.then((response) => response.json())
-		.then((data) => consultar(data));
+		.then((data) => {
+			swal ( "¡Transaccion Exitosa! " , "¡Se ha asigando la materia al alumno! " , "success" );
+			consultar(data)});
 	nombreAlumno.value = "";
 	nombreMateria.value = "";
 }
@@ -110,7 +112,8 @@ function Editar(id, Alumno, Materia) {
 }
 
 function Eliminar(id) {
-	fetch("https://localhost:44351/api/PersonaMaterias/" + id, {
+	ConfirmarEliminar();
+	fetch("https://localhost:44351/api/Personas/" + id, {
 		headers: {
 			Accept: "application/json",
 			"Content-Type": "application/json"
@@ -122,9 +125,28 @@ function Eliminar(id) {
 	}).then(() => {
 		let tr = document.querySelector(`tr[data-id="${id}"]`);
 		tabla.removeChild(tr);
-		idMateriaDocente.value = "";
-		nombreAlumno.value = "";
+		inputId.value = "";
+		inputNombre.value = "";
+
 	});
 }
-
+function ConfirmarEliminar(id){
+	swal({
+		title: "Esta seguro de eliminar el alumno?",
+		text: "No podra recuperar la información del alumno si lo elimina",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	  })
+	  .then((willDelete) => {
+		if (willDelete) {
+			Eliminar(id);
+		  swal("El maestro ha eliminado la asignaición correctamente", {
+			icon: "success",
+		  });
+		} else {
+		  swal("No se elimino el maestro");
+		}
+	  });
+}
 consultar();

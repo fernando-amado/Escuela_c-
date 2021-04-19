@@ -32,7 +32,7 @@ function llenarTabla(m) {
 	nMateria.innerHTML += "<td>" + m.Nombre + "</td>";
 	nMateria.setAttribute("data-id", m.Id);
 	nMateria.innerHTML += `<td class="tdBoton "><button class="buttonEditar far fa-edit"onclick="AbrirEditar(${m.Id},'${m.Nombre}')">Editar</button>
-    <button class=" fas fa-trash-alt buttonEliminar" onclick="Eliminar(${m.Id})">Eliminar</button></td>`;
+    <button class=" fas fa-trash-alt buttonEliminar" onclick="ConfirmarEliminar(${m.Id})">Eliminar</button></td>`;
 	tabla.appendChild(nMateria);
 	inputNombre.value = "";
 }
@@ -49,7 +49,9 @@ function Agregar(m) {
 		})
 	},)
 		.then((response) => response.json())
-		.then((data) => llenarTabla(data));
+		.then((data) => {
+			swal ( "¡Transaccion Exitosa! " , "¡Se ha agregado una nueva materia! " , "success" );
+			llenarTabla(data)});
 }
 
 function AbrirEditar(id, nombre) {
@@ -81,6 +83,7 @@ function Editar(id, nombre) {
 }
 
 function Eliminar(id) {
+	ConfirmarEliminar();
 	fetch("https://localhost:44351/api/Materias/" + id, {
 		headers: {
 			Accept: "application/json",
@@ -95,7 +98,27 @@ function Eliminar(id) {
 		tabla.removeChild(tr);
 		inputId.value = "";
 		inputNombre.value = "";
+
 	});
+}
+function ConfirmarEliminar(id){
+	swal({
+		title: "Esta seguro de eliminar el alumno?",
+		text: "No podra recuperar la información del alumno si lo elimina",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	  })
+	  .then((willDelete) => {
+		if (willDelete) {
+			Eliminar(id);
+		  swal("La materia ha sido eliminada correctamente", {
+			icon: "success",
+		  });
+		} else {
+		  swal("No se elimino la materia");
+		}
+	  });
 }
 
 listarMateria();

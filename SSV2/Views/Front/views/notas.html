@@ -13,49 +13,25 @@
      <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
      <!-- CSS personalizado -->
      <link rel="stylesheet" href="../assets/main.css">
- 
- 
-     <!--datables CSS básico-->
-     <link rel="stylesheet" type="text/css" href="../assets/datatables/datatables.min.css" />
-     <!--datables estilo bootstrap 4 CSS-->
-     <link rel="stylesheet" type="text/css"
-         href="../assets/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+
     <title>Notas</title>
 </head>
 
 <body>
-    <nav class="nav-bar">
+    <nav class="nav-bar ver  ">
         <ul class="menu">
-            <a href="../index.html">
-                <li> <img src="../assets/icons/home 1.svg" alt="Icono Incio"> INICIO</li>
-            </a>
-            <hr>
-            <a href="reportes.html">
-                <li> <img src="../assets/icons/lista-de-verificacion 1.svg" alt="Icono Reportes"> REPORTES</li>
-            </a>
-            <a href="maestros.html">
-                <li> <img src="../assets/icons/aula 1.svg" alt="Icono Maestros"> DOCENTES</li>
-            </a>
-            <a href="materias.html">
-                <li> <img src="../assets/icons/libro 1.svg" alt="Icono Materias"> MATERIAS</li>
-            </a>
-            <a href="alumnos.html">
-                <li> <img src="../assets/icons/sombrero-de-graduacion 1.svg" alt="Icono Alumnos"> ALUMNOS</li>
-            </a>
-            <a href="notas.html">
-                <li> <img src="../assets/icons/los-grados 1.svg" alt="Icono Notas"> NOTAS</li>
-            </a>
-            <a href="#">
-                <li> <img src="../assets/icons/asignar.svg" alt="Icono Asignar"> ASIGNAR
-                    <ul class="submenu">
-                        <li><a href="asignar_materia_profesor.html">Docente</a></li>
-                        <li><a href="asignar.html">Alumno</a></li>
-                    </ul>
-                </li>
-            </a>
-        </ul>
+           <a href="../index.html"> <li> <img src="../assets/icons/home 1.svg" alt="Icono Incio"> INICIO</li></a>
+            <a href="maestros.html"><li> <img src="../assets/icons/aula 1.svg" alt="Icono Maestros"> DOCENTES</li></a>
+            <a href="materias.html"><li> <img src="../assets/icons/libro 1.svg" alt="Icono Materias"> MATERIAS<ul class="submenu">
+                <li><a href="asignar_materia_profesor.html"> Docente</a></li>
+                <li><a href="asignar_materia_alumno.html"> Alumno</a></li>
+                </ul></li></a>
+            <a href="alumnos.html"><li> <img src="../assets/icons/sombrero-de-graduacion 1.svg" alt="Icono Alumnos"> ALUMNOS</li></a>
+            <a href="notas.html"><li> <img src="../assets/icons/los-grados 1.svg" alt="Icono Notas"> NOTAS</li></a>
+            <a href="periodos.html"><li> <img src="../assets/icons/calendar.svg" alt="Icono Periodo"> PERIODOS</li></a>
+            <a href="reportes.html"><li> <img src="../assets/icons/lista-de-verificacion 1.svg" alt="Icono Reportes"> REPORTES</li></a>
+            </ul> 
     </nav>
-
     <section class="seccionFormulario">
         <h1 class="tituloForm">Agregar Nota</h1>
         <form class="frm">
@@ -87,9 +63,9 @@
                 <p class="formulario__input-error">La nota debe tener un solo digito y maximo puede ser 5</p>
                 </div>
             </div>
-            <div class="buttons">
-                <input type="button" value="Agregar" id="Botonagregar">
-            </div>
+            <div class="buttons formulario__grupo formulario__grupo-btn-enviar">
+                <input type="submit" class="formulario__btn" value="Agregar" id="ButtonAdd"> 
+            <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Formulario enviado con Exito!!</p>
         </form>
         <hr>
     </section>
@@ -98,13 +74,14 @@
         <div class="encabezadoTabla">
             <h1 class="tituloTabla">Gestionar Notas</h1>
             <div>
-                <input type="text" placeholder="Buscar por Estudiante" id="BuscarId">
+                <input class="form-control col-md-6 light-table-filter" data-table="order-table" type="text"
+                    placeholder="Buscar..." id="BuscarId">
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="table-responsive">
-                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <table id="example" class="table table-bordered order-table " style="width:100%">
                         <thead>
                             <tr>
                                 <th>Nombre del Estudiante</th>
@@ -139,7 +116,6 @@
                         <input type="text" id="materiaEditar" readonly>
                     </div>
                     <div>
-                        
                         <label for="periodo">Periodo:</label>
                         <select id="seleccionPeriodo">
                             <option>Selecione...</option>
@@ -152,23 +128,17 @@
                     <input type="button" value="Guardar Cambios" class="guardarCambios"id="ButtonEditar"> 
                 </div>
             </div>
-            <div class="buttonsEditar">
-                <input type="button" value="Guardar Cambios" class="guardarCambios" id="ButtonEditar">
-            </div>
 </body>
 
 </html>
+<script src = " https://unpkg.com/sweetalert/dist/sweetalert.min.js " > </script>
 <script src="../assets/JavaScript/Notas.js"></script>
 <script src="../assets/JavaScript/Validar.js"></script>
 <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
 <script src="../assets/JavaScript/modalMateria.js"></script>
 <script src="../assets/JavaScript/Notas.js"></script>
+<script src="../assets/JavaScript/Buscar.js"></script>
 <!-- jQuery, Popper.js, Bootstrap JS -->
 <script src="../assets/jquery/jquery-3.3.1.min.js"></script>
 <script src="../assets/popper/popper.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-
-<!-- datatables JS -->
-<script type="../assets/text/javascript" src="datatables/datatables.min.js"></script>
-
-<script type="../assets/text/javascript" src="main.js"></script>
