@@ -22,7 +22,8 @@ namespace SSV2.Models
     
         public int Id { get; set; }
         public string NombreP { get; set; }
-    
+        public int Porcentaje { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public  ICollection<NotasMateria> NotasMateria { get; set; }
     }

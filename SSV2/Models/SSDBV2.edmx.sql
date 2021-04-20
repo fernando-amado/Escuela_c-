@@ -32,7 +32,7 @@ CREATE TABLE [dbo].[Personas] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Nombres] nvarchar(max)  NOT NULL,
     [Apellidos] nvarchar(max)  NOT NULL,
-    [TDoc_Id] int  NOT NULL,
+    [TDoc_Id] int unique  NOT NULL,
     [NDoc] nvarchar(max)  NOT NULL,
     [Activo] bit  NOT NULL,
     [Tp_Id] int  NOT NULL
