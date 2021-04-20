@@ -20,6 +20,14 @@ function listarSelect(url,input){
         llenarSelect(nota,input)
     }))
 }
+
+function listarSelectPeriodo(url,input){
+    fetch(url)
+    .then((data)=>data.json())
+    .then((notas)=>notas.forEach(nota=>{
+        llenarSelectPeriodo(nota,input)
+    }))
+}
 function listarSelectAlumno(url, input) {
 	fetch(url)
 		.then((data) => data.json())
@@ -49,6 +57,14 @@ function llenarSelect(datos,input){
 input.innerHTML += `<option value="${datos.Id}">${datos.Nombre}</option>`;
     
 }
+
+function llenarSelectPeriodo(datos,input){
+   
+    input.innerHTML += `<option value="${datos.Id}">${datos.NombreP} (${datos.Porcentaje}%)</option>`;
+        
+    }
+
+
 function llenarSelectAlumno(datos, input) {
      if (datos.Tp_Id==1){
 	input.innerHTML += `<option value="${datos.Id}">${datos.Nombres}</option>`;
@@ -176,8 +192,8 @@ btnEditar.addEventListener("click",()=>{
 listarNotas()
 listarSelectAlumno("https://localhost:44351/api/Personas/ConsultarTodo", selectestudiante);
 listarSelect("https://localhost:44351/api/Materias",selectmateria)
-listarSelect("https://localhost:44351/api/Periodoes",selectPeriodo)
-listarSelect("https://localhost:44351/api/Periodoes", periodoeditar)
+listarSelectPeriodo("https://localhost:44351/api/Periodoes",selectPeriodo)
+listarSelectPeriodo("https://localhost:44351/api/Periodoes", periodoeditar)
 
 
 

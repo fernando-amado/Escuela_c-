@@ -14,13 +14,7 @@ let apellidoEditar = document.getElementById("apellidoEditar");
 let tipoIdEditar = document.getElementById("tipoIdEditar");
 let estadoEditar = document.getElementById("estadoEditar");
 
-boton.addEventListener("click", () => {
-  inputNombre = document.getElementById("nombre").value;
-  inputApellido = document.getElementById("apellido").value;
-  inputTipo = parseInt(document.getElementById("tipoId").value);
-  inputDocumento = document.getElementById("documento").value;
-      Agregar(inputNombre,inputApellido,inputTipo,inputDocumento);
-});
+
 
 function listarProfesor() {
   fetch("https://localhost:44351/api/Personas/ConsultarTodo")
@@ -161,3 +155,10 @@ function Eliminar(id) {
 }
 
 listarProfesor();
+boton.addEventListener("click", () => {
+  inputNombre = document.getElementById("nombre").value;
+  inputApellido = document.getElementById("apellido").value;
+  inputTipo = parseInt(document.getElementById("tipoId").value);
+  inputDocumento = document.getElementById("documento").value;
+      Agregar(inputNombre,inputApellido,inputTipo,inputDocumento);
+});
