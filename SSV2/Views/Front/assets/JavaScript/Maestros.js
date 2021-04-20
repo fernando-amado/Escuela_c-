@@ -14,13 +14,7 @@ let apellidoEditar = document.getElementById("apellidoEditar");
 let tipoIdEditar = document.getElementById("tipoIdEditar");
 let estadoEditar = document.getElementById("estadoEditar");
 
-boton.addEventListener("click", () => {
-  inputNombre = document.getElementById("nombre").value;
-  inputApellido = document.getElementById("apellido").value;
-  inputTipo = parseInt(document.getElementById("tipoId").value);
-  inputDocumento = document.getElementById("documento").value;
-      Agregar(inputNombre,inputApellido,inputTipo,inputDocumento);
-});
+
 
 function listarProfesor() {
   fetch("https://localhost:44351/api/Personas/ConsultarTodo")
@@ -51,7 +45,7 @@ function llenarTablaProfesor(p) {
     ${p.TDoc_Id},
 	${p.Activo}
 	)">Editar</button>
-  <button class="fas fa-trash-alt buttonEliminar" onclick="Eliminar(${p.Id})">Eliminar</button></td>`;
+  <button class="fas fa-trash-alt buttonEliminar" onclick="ConfirmarEliminar(${p.Id})">Eliminar</button></td>`;
   profe.setAttribute("data-id", p.Id);
   tabla.appendChild(profe);
   inputNombre.value = "";
@@ -76,7 +70,7 @@ function Agregar(nombre,apellido,tdoc,ndoc,) {
       .then((response) => response.json())
       .then((p) => {
           llenarTablaProfesor(p)
-          alert("Se ha agregado exitosamente")
+          swal ( "¡Transaccion Exitosa! " , "¡Se ha agregado un nuevo docente! " , "success" );
       });
 }
 
@@ -100,7 +94,7 @@ function AbrirEditar(id, nDoc, nombres, apellidos, tDoc, estado) {
 }
 
 function Editar(id, nDoc, nombres, apellidos, tDoc, estado) {
-  console.log(id, nDoc, nombres, apellidos, tDoc, estado)
+ 
   fetch("https://localhost:44351/api/Personas/" + id, {
     headers: {
       Accept: "application/json",
@@ -118,23 +112,10 @@ function Editar(id, nDoc, nombres, apellidos, tDoc, estado) {
     }),
   })
     .then((p) => {
-      let tr = document.querySelector(`tr[data-id="${id}"]`);
-      tr.innerHTML = `<td> ${nDoc} </td>
-    <td>  ${nombres} </td>
-    <td>  ${apellidos} </td>
-    <td>  ${tDoc} </td>
-    <td>  ${estado ? "Activo" : "Inactivo"}  </td>`;
-      tr.innerHTML += `<td class="tdBoton ">
-    <button class="buttonEditar far fa-edit"onclick="AbrirEditar
-    (${id},
-    ${nDoc},
-    '${nombres}',
-      '${apellidos}',
-      ${tDoc},
-    ${estado}
-    )">Editar</button>
-    <button class="fas fa-trash-alt buttonEliminar" onclick="Eliminar(${id})">Eliminar</button></td>`;
-    location.reload();  
+      swal( "¡Transaccion Exitosa! " , "¡Se ha Actualizado docente! " , "success" ).then(() => {
+        location.reload()
+      });
+        
   })
     .catch((error) => {
       console.error(error);
@@ -142,22 +123,50 @@ function Editar(id, nDoc, nombres, apellidos, tDoc, estado) {
   CloseUpdate();
 }
 
-function Eliminar(id) {
-  fetch("https://localhost:44351/api/Personas/" + id, {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    method: "DELETE",
-    body: JSON.stringify({
-      Id: parseInt(id),
-    }),
-  }).then(() => {
-    let tr = document.querySelector(`tr[data-id="${id}"]`);
-    tabla.removeChild(tr);
-    inputId.value = "";
-    inputNombre.value = "";
-  });
-}
 
+function Eliminar(id) {
+	ConfirmarEliminar();
+	fetch("https://localhost:44351/api/Personas/" + id, {
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json"
+		},
+		method: "DELETE",
+		body: JSON.stringify({
+			Id: parseInt(id)
+		})
+	}).then(() => {
+		let tr = document.querySelector(`tr[data-id="${id}"]`);
+		tabla.removeChild(tr);
+		inputId.value = "";
+		inputNombre.value = "";
+
+	});
+}
+function ConfirmarEliminar(id){
+	swal({
+		title: "Esta seguro de eliminar el docente?",
+		text: "No podra recuperar la información del docente si lo elimina",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	  })
+	  .then((willDelete) => {
+		if (willDelete) {
+			Eliminar(id);
+		  swal("El docente ha sido eliminado correctamente", {
+			icon: "success",
+		  });
+		} else {
+		  swal("No se elimino el docente");
+		}
+	  });
+}
 listarProfesor();
+boton.addEventListener("click", () => {
+  inputNombre = document.getElementById("nombre").value;
+  inputApellido = document.getElementById("apellido").value;
+  inputTipo = parseInt(document.getElementById("tipoId").value);
+  inputDocumento = document.getElementById("documento").value;
+      Agregar(inputNombre,inputApellido,inputTipo,inputDocumento);
+});

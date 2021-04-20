@@ -4,7 +4,7 @@ const selectestudiante = document.getElementById("estudiante")
 const selectmateria= document.getElementById("materia")
 const selectPeriodo= document.getElementById("Periodo")
 const inputnota= document.getElementById("nota")
-const btnagregar= document.getElementById("Botonagregar")
+const btnagregar= document.getElementById("ButtonAdd")
 const nombreEditar=document.getElementById("nombreEditar")
 const materiaEditar = document.getElementById("materiaEditar");
 const EditarNota = document.getElementById("EditarNota");
@@ -18,6 +18,14 @@ function listarSelect(url,input){
     .then((data)=>data.json())
     .then((notas)=>notas.forEach(nota=>{
         llenarSelect(nota,input)
+    }))
+}
+
+function listarSelectPeriodo(url,input){
+    fetch(url)
+    .then((data)=>data.json())
+    .then((notas)=>notas.forEach(nota=>{
+        llenarSelectPeriodo(nota,input)
     }))
 }
 function listarSelectAlumno(url, input) {
@@ -49,6 +57,14 @@ function llenarSelect(datos,input){
 input.innerHTML += `<option value="${datos.Id}">${datos.Nombre}</option>`;
     
 }
+
+function llenarSelectPeriodo(datos,input){
+   
+    input.innerHTML += `<option value="${datos.Id}">${datos.NombreP} (${datos.Porcentaje}%)</option>`;
+        
+    }
+
+
 function llenarSelectAlumno(datos, input) {
      if (datos.Tp_Id==1){
 	input.innerHTML += `<option value="${datos.Id}">${datos.Nombres}</option>`;
@@ -67,7 +83,7 @@ function llenarTabla(notas) {
             <td>${(n.Notas[1]==null||n.Notas[1]==undefined)?"Aún no tiene nota asignada":n.Notas[1].Notas}</td>
           <td class="tdBoton "><button class="buttonEditar far fa-edit"
     onclick="AbrirEditar(${n.Notas[0].Idnota},${(n.Notas[1]==null||n.Notas[1]==undefined)?0:n.Notas[1].Idnota},'${n.Nombre}','${n.Notas[0].Notas}','${(n.Notas[1]==null||n.Notas[1]==undefined)?"Aún no tiene nota asignada":n.Notas[1].Notas}','${n.Materia}')">Editar</button>
-    <button class=" fas fa-trash-alt buttonEliminar" onclick="Eliminar(${n.Id},${n.Materia_id},${n.Notas[0].Idnota},${(n.Notas[1]==null||n.Notas[1]==undefined)?0:n.Notas[1].Idnota})">Eliminar</button></td>
+    <button class=" fas fa-trash-alt buttonEliminar" onclick="ConfirmarEliminar(${n.Id},${n.Materia_id},${n.Notas[0].Idnota},${(n.Notas[1]==null||n.Notas[1]==undefined)?0:n.Notas[1].Idnota})">Eliminar</button></td>
           </tr>`;
 				tabla.innerHTML = html;
 			
@@ -90,7 +106,7 @@ function Agregar(nombre,materia,periodo,nota){
             Estudiante_id:nombre
         })
     }).then((response) => response.json()).then()
-
+    swal ( "¡Transaccion Exitosa! " , "¡Se han agregado las notas al alumno! " , "success" );
  setInterval("actualizar()", 30);
     selectestudiante.value="";
     selectmateria.value="";
@@ -161,7 +177,25 @@ function Eliminar(idpersona,idmateria,idnota1,idnota2){
     let tr = document.querySelector(`tr[data-id="${idpersona}"]`);
 		tabla.removeChild(tr);
 }
-
+function ConfirmarEliminar(idpersona,idmateria,idnota1,idnota2){
+	swal({
+		title: "Esta seguro de eliminar el alumno?",
+		text: "No podra recuperar la información del alumno si lo elimina",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	  })
+	  .then((willDelete) => {
+		if (willDelete) {
+			Eliminar(idpersona,idmateria,idnota1,idnota2);
+		  swal("El maestro ha sido eliminado correctamente", {
+			icon: "success",
+		  });
+		} else {
+		  swal("No se elimino el maestro");
+		}
+	  });
+}
 btnEditar.addEventListener("click",()=>{
     Editar(
         document.getElementById("idnota").value,
@@ -176,8 +210,8 @@ btnEditar.addEventListener("click",()=>{
 listarNotas()
 listarSelectAlumno("https://localhost:44351/api/Personas/ConsultarTodo", selectestudiante);
 listarSelect("https://localhost:44351/api/Materias",selectmateria)
-listarSelect("https://localhost:44351/api/Periodoes",selectPeriodo)
-listarSelect("https://localhost:44351/api/Periodoes", periodoeditar)
+listarSelectPeriodo("https://localhost:44351/api/Periodoes",selectPeriodo)
+listarSelectPeriodo("https://localhost:44351/api/Periodoes", periodoeditar)
 
 
 
