@@ -1,5 +1,5 @@
 .nav-bar {
-	background-color: #3a6d8c;
+	background-color: #023859;
 	color: #f2f2f2;
 	position: fixed;
 	left: 0;
@@ -10,10 +10,38 @@
 	padding: 30%;
 	padding-top: 10px;
 }
-
+.img:hover{
+	color:#f2f2f2;
+}
+ul{
+	color: #F2F2F2;
+	text-decoration: none;
+}
+a{
+	color: #F2F2F2;
+	text-decoration: none;
+}
+li{
+	color: #F2F2F2;
+	text-decoration: none;
+}
+a:hover{
+		text-decoration: none;
+		color: #F2F2F2;
+}
+li:hover{
+	text-decoration: none;
+	color: #F2F2F2;
+}
+.menu{
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
 .nav-bar ul li {
 	list-style: none;
 	position: relative;
+	margin: 10px 0;
 	width: 100%;
 	margin-top: 15px;
 	font-size: 1.1vw;
@@ -47,36 +75,38 @@
 }
 
 @media (max-width: 600px) {
+
 	ul {
 		margin: 0;
 	}
 	.hamburguesa {
 		position: relative;
 		display: block;
-		width: 10%;
-		height: 40%;
-		margin: 0;
-
+		width: 8%;
+		height: 10%;
 		z-index: 3;
+		color: #023859;
 	}
 
-	.nav-bar ul li img {
-		vertical-align: middle;
+	.nav-bar ul li  > img {
 		margin-left: 0;
 		width: 50px;
+		margin-left: 35%;
 	}
-	.menu {
+
+ul a {
+		padding: 10px;
+		box-sizing: content-box;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		text-align: center;
-	}
-	ul a {
+		justify-content: center;
 		font-size: 3.5vw;
 		text-align: center;
+
 	}
-	.nav-bar {
-		background-color: #3a6d8c;
+
+.nav-bar {
+		background-color: #023859;
 		color: #f2f2f2;
 		position: static;
 		left: 0;
@@ -87,20 +117,20 @@
 		align-items: center;
 		display: none;
 	}
-	.ver {
+.ver {
 		display: none;
 	}
-	.hidden {
+.hidden {
 		display: block;
 	}
-	.nav-bar ul li {
+.nav-bar ul li {
 		display: flex;
 		flex-direction: column;
 		font-size: 18px;
 	}
-	.asignar {
+.asignar {
 		width: 10%;
-	}
+}
 }
 .menu li:hover .submenu{
 display:block;

@@ -14,6 +14,8 @@ let apellidoEditar = document.getElementById("apellidoEditar");
 let tipoIdEditar = document.getElementById("tipoIdEditar");
 let estadoEditar = document.getElementById("estadoEditar");
 
+
+
 boton.addEventListener("click", () => {
 	inputNombre = document.getElementById("nombre").value;
 	inputApellido = document.getElementById("apellido").value;
@@ -51,7 +53,7 @@ function llenarTablaAlumno(p) {
     ${p.TDoc_Id},
 	${p.Activo}
 	)">Editar</button>
-  <button class="fas fa-trash-alt buttonEliminar" onclick="Eliminar(${p.Id})">Eliminar</button></td>`;
+  <button class="fas fa-trash-alt buttonEliminar" onclick="ConfirmarEliminar(${p.Id})">Eliminar</button></td>`;
 	profe.setAttribute("data-id", p.Id);
 	tabla.appendChild(profe);
 	inputNombre.value = "";
@@ -76,7 +78,7 @@ function Agregar(nombre, apellido, tdoc, ndoc) {
 		.then((response) => response.json())
 		.then((p) => {
 			llenarTablaAlumno(p);
-			alert("Se ha agregado exitosamente");
+			swal ( "¡Transaccion Exitosa! " , "¡Se ha agregado un nuevo alumno! " , "success" );
 		});
 }
 
@@ -118,22 +120,7 @@ function Editar(id, nDoc, nombres, apellidos, tDoc, estado) {
 		})
 	})
 		.then((p) => {
-			let tr = document.querySelector(`tr[data-id="${id}"]`);
-			tr.innerHTML = `<td> ${nDoc} </td>
-    <td>  ${nombres} </td>
-    <td>  ${apellidos} </td>
-    <td>  ${tDoc} </td>
-    <td>  ${estado ? "Activo" : "Inactivo"}  </td>`;
-			tr.innerHTML += `<td class="tdBoton ">
-    <button class="buttonEditar far fa-edit"onclick="AbrirEditar
-    (${id},
-    ${nDoc},
-    '${nombres}',
-      '${apellidos}',
-      ${tDoc},
-    ${estado}
-    )">Editar</button>
-    <button class="fas fa-trash-alt buttonEliminar" onclick="Eliminar(${id})">Eliminar</button></td>`;
+			swal ( "¡Transaccion Exitosa! " , "¡Se ha actualizado el alumno! " , "success" );
 			location.reload();
 		})
 		.catch((error) => {
@@ -143,6 +130,7 @@ function Editar(id, nDoc, nombres, apellidos, tDoc, estado) {
 }
 
 function Eliminar(id) {
+	ConfirmarEliminar();
 	fetch("https://localhost:44351/api/Personas/" + id, {
 		headers: {
 			Accept: "application/json",
@@ -157,7 +145,26 @@ function Eliminar(id) {
 		tabla.removeChild(tr);
 		inputId.value = "";
 		inputNombre.value = "";
+
 	});
 }
-
+function ConfirmarEliminar(id){
+	swal({
+		title: "Esta seguro de eliminar el alumno?",
+		text: "No podra recuperar la información del alumno si lo elimina",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	  })
+	  .then((willDelete) => {
+		if (willDelete) {
+			Eliminar(id);
+		  swal("El alumnmo ha sido eliminado correctamente", {
+			icon: "success",
+		  });
+		} else {
+		  swal("No se elimino el alumno");
+		}
+	  });
+}
 listarAlumno();
