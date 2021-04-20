@@ -1,5 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="SSDBV2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="SSDBV2.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="SSDBV2StoreContainer">
+    <EntitySet Name="Personas" EntityType="SSDBV2.Store.Personas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PersonaMaterias" EntityType="SSDBV2.Store.PersonaMaterias" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Materias" EntityType="SSDBV2.Store.Materias" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="NotasMaterias" EntityType="SSDBV2.Store.NotasMaterias" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TDocs" EntityType="SSDBV2.Store.TDocs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TipoPersonas" EntityType="SSDBV2.Store.TipoPersonas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Periodoes" EntityType="SSDBV2.Store.Periodoes" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="PersonaTDoc" Association="SSDBV2.Store.PersonaTDoc">
+      <End Role="Persona" EntitySet="Personas" />
+      <End Role="TDoc" EntitySet="TDocs" />
+    </AssociationSet>
+    <AssociationSet Name="PersonaTipoPersona" Association="SSDBV2.Store.PersonaTipoPersona">
+      <End Role="Persona" EntitySet="Personas" />
+      <End Role="TipoPersona" EntitySet="TipoPersonas" />
+    </AssociationSet>
+    <AssociationSet Name="PersonaPersonaMateria" Association="SSDBV2.Store.PersonaPersonaMateria">
+      <End Role="Persona" EntitySet="Personas" />
+      <End Role="PersonaMateria" EntitySet="PersonaMaterias" />
+    </AssociationSet>
+    <AssociationSet Name="PersonaMateriaMateria" Association="SSDBV2.Store.PersonaMateriaMateria">
+      <End Role="PersonaMateria" EntitySet="PersonaMaterias" />
+      <End Role="Materia" EntitySet="Materias" />
+    </AssociationSet>
+    <AssociationSet Name="PersonaMateriaNotasMateria" Association="SSDBV2.Store.PersonaMateriaNotasMateria">
+      <End Role="PersonaMateria" EntitySet="PersonaMaterias" />
+      <End Role="NotasMateria" EntitySet="NotasMaterias" />
+    </AssociationSet>
+    <AssociationSet Name="NotasMateriaPeriodo" Association="SSDBV2.Store.NotasMateriaPeriodo">
+      <End Role="NotasMateria" EntitySet="NotasMaterias" />
+      <End Role="Periodo" EntitySet="Periodoes" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Personas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombres" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Apellidos" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TDoc_Id" Type="int" Nullable="false" />
+    <Property Name="NDoc" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Activo" Type="bit" Nullable="false" />
+    <Property Name="Tp_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PersonaMaterias">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Materia_Id" Type="int" Nullable="false" />
+    <Property Name="Persona_Id" Type="int" Nullable="false" />
+    <Property Name="Notas_Materias_Id" Type="int" Nullable="true" />
+  </EntityType>
   <EntityType Name="Materias">
     <Key>
       <PropertyRef Name="Id" />
@@ -15,35 +69,6 @@
     <Property Name="Notas" Type="float" Nullable="false" />
     <Property Name="Periodo_Id" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="Periodoes">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="NombreP" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Porcentaje" Type="float" />
-  </EntityType>
-  <EntityType Name="PersonaMaterias">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Materia_Id" Type="int" Nullable="false" />
-    <Property Name="Persona_Id" Type="int" Nullable="false" />
-    <Property Name="Notas_Materias_Id" Type="int" />
-  </EntityType>
-  <EntityType Name="Personas">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nombres" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Apellidos" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TDoc_Id" Type="int" Nullable="false" />
-    <Property Name="NDoc" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Activo" Type="bit" Nullable="false" />
-    <Property Name="Tp_Id" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="TDocs">
     <Key>
       <PropertyRef Name="Id" />
@@ -58,109 +83,83 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Rol" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <Association Name="FK_NotasMateriaPeriodo">
-    <End Role="Periodoes" Type="Self.Periodoes" Multiplicity="1" />
-    <End Role="NotasMaterias" Type="Self.NotasMaterias" Multiplicity="*" />
+  <EntityType Name="Periodoes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreP" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="PersonaTDoc">
+    <End Role="Persona" Type="SSDBV2.Store.Personas" Multiplicity="*" />
+    <End Role="TDoc" Type="SSDBV2.Store.TDocs" Multiplicity="1" />
     <ReferentialConstraint>
-      <Principal Role="Periodoes">
+      <Principal Role="TDoc">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="NotasMaterias">
-        <PropertyRef Name="Periodo_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PersonaMateriaMateria">
-    <End Role="Materias" Type="Self.Materias" Multiplicity="1" />
-    <End Role="PersonaMaterias" Type="Self.PersonaMaterias" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Materias">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="PersonaMaterias">
-        <PropertyRef Name="Materia_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PersonaMateriaNotasMateria">
-    <End Role="NotasMaterias" Type="Self.NotasMaterias" Multiplicity="0..1" />
-    <End Role="PersonaMaterias" Type="Self.PersonaMaterias" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="NotasMaterias">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="PersonaMaterias">
-        <PropertyRef Name="Notas_Materias_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PersonaPersonaMateria">
-    <End Role="Personas" Type="Self.Personas" Multiplicity="1" />
-    <End Role="PersonaMaterias" Type="Self.PersonaMaterias" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Personas">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="PersonaMaterias">
-        <PropertyRef Name="Persona_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PersonaTDoc">
-    <End Role="TDocs" Type="Self.TDocs" Multiplicity="1" />
-    <End Role="Personas" Type="Self.Personas" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TDocs">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Personas">
+      <Dependent Role="Persona">
         <PropertyRef Name="TDoc_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PersonaTipoPersona">
-    <End Role="TipoPersonas" Type="Self.TipoPersonas" Multiplicity="1" />
-    <End Role="Personas" Type="Self.Personas" Multiplicity="*" />
+  <Association Name="PersonaTipoPersona">
+    <End Role="Persona" Type="SSDBV2.Store.Personas" Multiplicity="*" />
+    <End Role="TipoPersona" Type="SSDBV2.Store.TipoPersonas" Multiplicity="1" />
     <ReferentialConstraint>
-      <Principal Role="TipoPersonas">
+      <Principal Role="TipoPersona">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Personas">
+      <Dependent Role="Persona">
         <PropertyRef Name="Tp_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="SSDBV2StoreContainer">
-    <EntitySet Name="Materias" EntityType="Self.Materias" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="NotasMaterias" EntityType="Self.NotasMaterias" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Periodoes" EntityType="Self.Periodoes" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="PersonaMaterias" EntityType="Self.PersonaMaterias" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Personas" EntityType="Self.Personas" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="TDocs" EntityType="Self.TDocs" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="TipoPersonas" EntityType="Self.TipoPersonas" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_NotasMateriaPeriodo" Association="Self.FK_NotasMateriaPeriodo">
-      <End Role="Periodoes" EntitySet="Periodoes" />
-      <End Role="NotasMaterias" EntitySet="NotasMaterias" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PersonaMateriaMateria" Association="Self.FK_PersonaMateriaMateria">
-      <End Role="Materias" EntitySet="Materias" />
-      <End Role="PersonaMaterias" EntitySet="PersonaMaterias" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PersonaMateriaNotasMateria" Association="Self.FK_PersonaMateriaNotasMateria">
-      <End Role="NotasMaterias" EntitySet="NotasMaterias" />
-      <End Role="PersonaMaterias" EntitySet="PersonaMaterias" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PersonaPersonaMateria" Association="Self.FK_PersonaPersonaMateria">
-      <End Role="Personas" EntitySet="Personas" />
-      <End Role="PersonaMaterias" EntitySet="PersonaMaterias" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PersonaTDoc" Association="Self.FK_PersonaTDoc">
-      <End Role="TDocs" EntitySet="TDocs" />
-      <End Role="Personas" EntitySet="Personas" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PersonaTipoPersona" Association="Self.FK_PersonaTipoPersona">
-      <End Role="TipoPersonas" EntitySet="TipoPersonas" />
-      <End Role="Personas" EntitySet="Personas" />
-    </AssociationSet>
-  </EntityContainer>
+  <Association Name="PersonaPersonaMateria">
+    <End Role="Persona" Type="SSDBV2.Store.Personas" Multiplicity="1" />
+    <End Role="PersonaMateria" Type="SSDBV2.Store.PersonaMaterias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persona">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PersonaMateria">
+        <PropertyRef Name="Persona_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PersonaMateriaMateria">
+    <End Role="PersonaMateria" Type="SSDBV2.Store.PersonaMaterias" Multiplicity="*" />
+    <End Role="Materia" Type="SSDBV2.Store.Materias" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Materia">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PersonaMateria">
+        <PropertyRef Name="Materia_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PersonaMateriaNotasMateria">
+    <End Role="PersonaMateria" Type="SSDBV2.Store.PersonaMaterias" Multiplicity="*" />
+    <End Role="NotasMateria" Type="SSDBV2.Store.NotasMaterias" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="NotasMateria">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PersonaMateria">
+        <PropertyRef Name="Notas_Materias_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="NotasMateriaPeriodo">
+    <End Role="NotasMateria" Type="SSDBV2.Store.NotasMaterias" Multiplicity="*" />
+    <End Role="Periodo" Type="SSDBV2.Store.Periodoes" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Periodo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NotasMateria">
+        <PropertyRef Name="Periodo_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

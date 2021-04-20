@@ -14,3 +14,18 @@ function MostrarNav(){
     }
 }
 
+document.getElementById("facebook-icon").onclick=function(){
+    window.open("http://facebook.com", "Página Facebook");
+}
+
+document.getElementById("instagram-icon").onclick=function(){
+    window.open("http://instagram.com", "Página Facebook");
+}
+
+document.getElementById("twitter-icon").onclick=function(){
+    window.open("http://twitter.com", "Página Facebook");
+}
+
+document.getElementById("gmail-icon").onclick=function(){
+    window.open("http://gmail.com", "Página Facebook");
+}

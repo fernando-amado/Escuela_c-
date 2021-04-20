@@ -53,7 +53,7 @@ namespace SSV2.Controllers
                                join permat in db.PersonaMaterias on notmat.Id equals permat.Notas_Materias_Id
                                join period in db.Periodoes on notmat.Periodo_Id equals period.Id
                                where permat.Persona_Id == per.Id && permat.Materia_Id == m.Id
-                               select new { Notas = notmat.Notas, NombreP = period.NombreP, Idnota = notmat.Id }),
+                               select new { Notas = notmat.Notas, NombreP = period.NombreP, Idnota = notmat.Id , Porcentaje= period.Porcentaje}),
                       Materia = m.Nombre,
                       Materia_id = m.Id,
                       Profesor = (from pro in db.Personas
@@ -88,7 +88,7 @@ namespace SSV2.Controllers
                                   join permat in db.PersonaMaterias on notmat.Id equals permat.Notas_Materias_Id
                                   join period in db.Periodoes on notmat.Periodo_Id equals period.Id
                                   where permat.Persona_Id == per.Id && permat.Materia_Id == m.Id
-                                  select new { Notas = notmat.Notas, NombreP = period.NombreP, Idnota = notmat.Id }),
+                                  select new { Notas = notmat.Notas, NombreP = period.NombreP, Idnota = notmat.Id, Porcentaje = period.Porcentaje }),
                          Materia = m.Nombre,
                          Materia_id = m.Id,
                          Profesor = (from pro in db.Personas

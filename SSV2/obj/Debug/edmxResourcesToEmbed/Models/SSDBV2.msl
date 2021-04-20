@@ -58,11 +58,10 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Periodoes">
-      <EntityTypeMapping TypeName="SSDBV2.Periodo">
+      <EntityTypeMapping TypeName="IsTypeOf(SSDBV2.Periodo)">
         <MappingFragment StoreEntitySet="Periodoes">
-          <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
-          <ScalarProperty Name="NombreP" ColumnName="NombreP" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="NombreP" ColumnName="NombreP" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

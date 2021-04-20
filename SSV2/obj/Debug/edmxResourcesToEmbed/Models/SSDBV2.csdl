@@ -7,6 +7,7 @@
     <EntitySet Name="NotasMaterias" EntityType="SSDBV2.NotasMateria" />
     <EntitySet Name="TDocs" EntityType="SSDBV2.TDoc" />
     <EntitySet Name="TipoPersonas" EntityType="SSDBV2.TipoPersona" />
+    <EntitySet Name="Periodoes" EntityType="SSDBV2.Periodo" />
     <AssociationSet Name="PersonaTDoc" Association="SSDBV2.PersonaTDoc">
       <End Role="Persona" EntitySet="Personas" />
       <End Role="TDoc" EntitySet="TDocs" />
@@ -27,10 +28,9 @@
       <End Role="PersonaMateria" EntitySet="PersonaMaterias" />
       <End Role="NotasMateria" EntitySet="NotasMaterias" />
     </AssociationSet>
-    <EntitySet Name="Periodoes" EntityType="SSDBV2.Periodo" />
-    <AssociationSet Name="FK_NotasMateriaPeriodo" Association="SSDBV2.FK_NotasMateriaPeriodo">
-      <End Role="Periodo" EntitySet="Periodoes" />
+    <AssociationSet Name="NotasMateriaPeriodo" Association="SSDBV2.NotasMateriaPeriodo">
       <End Role="NotasMateria" EntitySet="NotasMaterias" />
+      <End Role="Periodo" EntitySet="Periodoes" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Persona">
@@ -38,10 +38,10 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Nombres" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-    <Property Name="Apellidos" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Nombres" Type="String" Nullable="false" />
+    <Property Name="Apellidos" Type="String" Nullable="false" />
     <Property Name="TDoc_Id" Type="Int32" Nullable="false" />
-    <Property Name="NDoc" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="NDoc" Type="String" Nullable="false" />
     <Property Name="Activo" Type="Boolean" Nullable="false" />
     <Property Name="Tp_Id" Type="Int32" Nullable="false" />
     <NavigationProperty Name="TDocs" Relationship="SSDBV2.PersonaTDoc" FromRole="Persona" ToRole="TDoc" />
@@ -65,7 +65,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" />
     <NavigationProperty Name="PersonaMateria" Relationship="SSDBV2.PersonaMateriaMateria" FromRole="Materia" ToRole="PersonaMateria" />
   </EntityType>
   <EntityType Name="NotasMateria">
@@ -76,14 +76,14 @@
     <Property Name="Notas" Type="Double" Nullable="false" />
     <Property Name="Periodo_Id" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PersonaMateria" Relationship="SSDBV2.PersonaMateriaNotasMateria" FromRole="NotasMateria" ToRole="PersonaMateria" />
-    <NavigationProperty Name="Periodo" Relationship="SSDBV2.FK_NotasMateriaPeriodo" FromRole="NotasMateria" ToRole="Periodo" />
+    <NavigationProperty Name="Periodoes" Relationship="SSDBV2.NotasMateriaPeriodo" FromRole="NotasMateria" ToRole="Periodo" />
   </EntityType>
   <EntityType Name="TDoc">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Tipo" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Tipo" Type="String" Nullable="false" />
     <NavigationProperty Name="Persona" Relationship="SSDBV2.PersonaTDoc" FromRole="TDoc" ToRole="Persona" />
   </EntityType>
   <EntityType Name="TipoPersona">
@@ -91,8 +91,16 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Rol" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Rol" Type="String" Nullable="false" />
     <NavigationProperty Name="Persona" Relationship="SSDBV2.PersonaTipoPersona" FromRole="TipoPersona" ToRole="Persona" />
+  </EntityType>
+  <EntityType Name="Periodo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreP" Type="String" Nullable="false" />
+    <NavigationProperty Name="NotasMateria" Relationship="SSDBV2.NotasMateriaPeriodo" FromRole="Periodo" ToRole="NotasMateria" />
   </EntityType>
   <Association Name="PersonaTDoc">
     <End Type="SSDBV2.Persona" Role="Persona" Multiplicity="*" />
@@ -154,18 +162,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="Periodo">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="NombreP" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Porcentaje" Type="Double" />
-    <NavigationProperty Name="NotasMaterias" Relationship="SSDBV2.FK_NotasMateriaPeriodo" FromRole="Periodo" ToRole="NotasMateria" />
-  </EntityType>
-  <Association Name="FK_NotasMateriaPeriodo">
-    <End Type="SSDBV2.Periodo" Role="Periodo" Multiplicity="1" />
+  <Association Name="NotasMateriaPeriodo">
     <End Type="SSDBV2.NotasMateria" Role="NotasMateria" Multiplicity="*" />
+    <End Type="SSDBV2.Periodo" Role="Periodo" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Periodo">
         <PropertyRef Name="Id" />
